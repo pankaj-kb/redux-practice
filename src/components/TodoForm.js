@@ -17,12 +17,27 @@ import { v4 } from "uuid";
 import { connect } from "react-redux";
 
 import { addTodo } from "../action/todo";
-import { useState } from "react";
 
 const TodoForm = ({ addTodo }) => {
   const [title, setTitle] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (title === "") {
+      return alert("Please add a todo");
+    }
+
+    const todo = {
+      title,
+      id: v4(),
+    };
+    addTodo(todo);
+
+    setTitle("");
+  };
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <FormGroup>
         <InputGroup>
           <Input
@@ -30,9 +45,13 @@ const TodoForm = ({ addTodo }) => {
             name="todo"
             id="todo"
             placeholder="Your Next Todo"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <InputGroupAddon addonType="prepend">
-            <Button color="primary">ADD</Button>
+            <Button color="primary" onClick={handleSubmit}>
+              ADD
+            </Button>
           </InputGroupAddon>
         </InputGroup>
       </FormGroup>
@@ -40,4 +59,12 @@ const TodoForm = ({ addTodo }) => {
   );
 };
 
-export default TodoForm;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+  addTodo: (todo) => {
+    dispatch(addTodo(todo));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
