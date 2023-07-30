@@ -1,12 +1,23 @@
 // import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container } from "reactstrap";
+import "./App.css";
 
+import Todo from "./components/Todo";
+import TodoForm from "./components/TodoForm";
+
+// redux
+
+import { Provider } from "react-redux";
 
 function App() {
   return (
-    <div className="App">
-      <h1>it works</h1>
-    </div>
+    <Provider>
+      <Container>
+        <Todo />
+        <TodoForm />
+      </Container>
+    </Provider>
   );
 }
 
